@@ -33,7 +33,18 @@ export function setToken(token: string) {
 }
 
 export function buildApiUrl(path: string) {
-  return new URL(path.replace(/^\/+/, ''), getApiBase()).toString()
+  const value = path.trim()
+  if (/^[a-z][a-z\d+.-]*:\/\//i.test(value)) return value
+
+  const base = getApiBase()
+  const basePath = new URL(base).pathname.replace(/^\/+|\/+$/g, '')
+  let nextPath = value.replace(/^\/+/, '')
+
+  if (basePath && (nextPath === basePath || nextPath.startsWith(`${basePath}/`) || nextPath.startsWith(`${basePath}?`) || nextPath.startsWith(`${basePath}#`))) {
+    nextPath = nextPath.slice(basePath.length).replace(/^\/+/, '')
+  }
+
+  return new URL(nextPath, base).toString()
 }
 
 export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise<T> {
