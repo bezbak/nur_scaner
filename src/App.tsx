@@ -52,7 +52,7 @@ function Shell({ user, setUser }: AppContext) {
       )}
       <main className="content">
         <Routes>
-          <Route path="/login" element={<LoginPage setUser={setUser} />} />
+          <Route path="/login" element={user ? <Navigate to="/tickets" replace /> : <LoginPage setUser={setUser} />} />
           <Route path="/tickets" element={<Protected user={user}><TicketsPage user={user} /></Protected>} />
           <Route path="/scan" element={<Protected user={user}><ScannerPage /></Protected>} />
           <Route path="/ticket/:token" element={<TicketPage user={user} />} />

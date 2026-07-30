@@ -1,10 +1,12 @@
 import { FormEvent, useState } from 'react'
 import { Settings } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { getApiBase, saveApiBase } from '../lib/api'
 import { login } from '../lib/auth'
 import type { AuthUser } from '../lib/types'
 
 export default function LoginPage({ setUser }: { setUser: (user: AuthUser | null) => void }) {
+  const navigate = useNavigate()
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [apiBase, setApiBase] = useState(getApiBase())
@@ -18,7 +20,9 @@ export default function LoginPage({ setUser }: { setUser: (user: AuthUser | null
     setLoading(true)
     try {
       saveApiBase(apiBase)
-      setUser(await login(name, password))
+      const user = await login(name, password)
+      setUser(user)
+      navigate('/tickets', { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ошибка входа')
     } finally {
