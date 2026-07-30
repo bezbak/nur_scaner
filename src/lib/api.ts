@@ -1,6 +1,6 @@
 export const API_BASE_KEY = 'ticket_verifier_api_base'
 export const TOKEN_KEY = 'ticket_verifier_token'
-export const DEFAULT_API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api/v1/'
+export const DEFAULT_API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://site.nur.webtm.ru/api/v1/'
 
 export type ApiError = Error & { status?: number; data?: unknown }
 
